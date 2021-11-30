@@ -8,9 +8,9 @@
                 Übersicht
             </div>
         </a>
-        <a href="{{ route("berichte") }}">
+        <a href="{{ route("personal") }}">
             <div class="p-4 hover:bg-gray-500 hover:text-gray-50">
-                Einsatzberichte
+                Personal
             </div>
         </a>
         @auth

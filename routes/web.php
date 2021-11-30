@@ -41,6 +41,10 @@ Route::get('/Einsatzbericht/Anlegen/{alarm}',[\App\Http\Controllers\BerichtContr
     ->name("bericht.create");
 Route::get('/Einsatzbericht/{bericht}',[\App\Http\Controllers\BerichtController::class,'show'])
     ->name("bericht.show");
+Route::get('/Personal',[\App\Http\Controllers\HomeController::class,'personal'])
+    ->name("personal");
+Route::get('/Personal/Download',[\App\Http\Controllers\HomeController::class,'download'])
+    ->name("personal.download");
 
 Route::prefix("Admin/")->name("admin.")->middleware("auth")->group(function () {
     Route::get("/Start",[\App\Http\Controllers\Admin\HomeController::class,'index'])
