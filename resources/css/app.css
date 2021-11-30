@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import '~@fortawesome/fontawesome-free/css/fontawesome';
+@import '~@fortawesome/fontawesome-free/css/regular';
+@import '~@fortawesome/fontawesome-free/css/solid';
+@import '~@fortawesome/fontawesome-free/css/brands';
+
+
+@layer components {
+    .navbar-item {
+        @apply transition duration-700 p-2 m-2 rounded-md hover:bg-gray-900 hover:text-gray-50 transform text-gray-300
+    }
+
+    .zis-form-input {
+        @apply text-gray-700 font-light p-2 bg-gray-50 ring-gray-200 ring-2 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-400 focus:border-transparent
+    }
+
+    .zis-form-label {
+        @apply text-gray-700 mb-1 text-sm
+    }
+
+    .zis-form-submit {
+        @apply p-3 focus:outline-none bg-blue-600 text-gray-50 rounded-md shadow-md hover:bg-blue-700 focus:ring-2
+    }
+
+    .zis-form-group {
+        @apply flex flex-col mb-4
+    }
+
+    .btn {
+        @apply p-2 focus:outline-none rounded-md shadow-md focus:ring-2 inline-block
+    }
+
+    .btn-green {
+        @apply bg-green-600 hover:bg-green-700 text-gray-50
+    }
+
+    .btn-red {
+        @apply bg-red-600 hover:bg-red-700 text-gray-50
+    }
+
+    .btn-indigo {
+        @apply bg-indigo-600 hover:bg-indigo-700 text-gray-50
+    }
+
+    .btn-gray {
+        @apply bg-gray-600 hover:bg-gray-700 text-gray-50
+    }
+
+    .btn-yellow {
+        @apply bg-yellow-400 hover:bg-yellow-500 text-gray-50
+    }
+
+    .card {
+        @apply flex flex-col bg-gray-50 shadow-sm
+    }
+
+    .card-header {
+        @apply border-gray-500 border-l-4 pl-4 mt-3 mb-3 text-sm font-bold
+    }
+
+    .card-body {
+        @apply p-5 border-t border-gray-300
+    }
+
+    .table {
+        @apply table-auto w-full text-sm
+    }
+
+    .table > thead >tr {
+        @apply text-gray-700
+    }
+
+    .table > thead > tr > th {
+        @apply p-3 text-left
+    }
+
+    .table > tbody {
+        @apply font-light
+    }
+
+    .table > tbody > tr >td {
+        @apply p-3
+    }
+
+    .badge {
+        @apply p-1 rounded-md text-gray-50 shadow-sm text-xs inline-block
+    }
+
+    .info-text {
+        @apply text-gray-600 text-sm font-light mb-4
+    }
+}
