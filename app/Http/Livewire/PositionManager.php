@@ -11,6 +11,11 @@ class PositionManager extends Component
         'positionen_updated' => '$refresh',
     ];
 
+    /**
+     * Rückgabe der View
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
         $positionen = Position::orderBy('order')->get();
@@ -19,6 +24,11 @@ class PositionManager extends Component
         ]));
     }
 
+    /**
+     * In der Reihenfolge erhöhen
+     *
+     * @param Position $position
+     */
     public function orderUp(Position $position) {
         if($upper = Position::where('order','>',$position->order)->orderBy('order')->first()) {
             $upper->order = $upper->order - 1;
@@ -28,6 +38,11 @@ class PositionManager extends Component
         }
     }
 
+    /**
+     * Löschen der position
+     *
+     * @param Position $position
+     */
     public function delete(Position $position) {
         $upper = Position::where('order','>',$position->order)->get();
         foreach($upper as $u)
@@ -39,6 +54,11 @@ class PositionManager extends Component
         $this->emit("positionen_updated");
     }
 
+    /**
+     * In der Reihenfolge senken
+     *
+     * @param Position $position
+     */
     public function orderDown(Position $position) {
         if($lower = Position::where('order','<',$position->order)->orderBy('order','desc')->first()) {
             $lower->order = $lower->order + 1;

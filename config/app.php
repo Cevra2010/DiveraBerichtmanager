@@ -1,5 +1,7 @@
 <?php
 
+use Zis\Ext\SettingsManager\SettingServiceProvider;
+
 return [
 
     /*
@@ -186,7 +188,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        \Zis\Ext\SettingsManager\SettingServiceProvider::class,
+        SettingServiceProvider::class,
         App\Providers\ViewServiceProvider::class,
     ],
 

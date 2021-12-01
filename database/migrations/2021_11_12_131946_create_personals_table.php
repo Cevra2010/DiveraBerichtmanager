@@ -13,6 +13,7 @@ class CreatePersonalsTable extends Migration
             $table->string("firstname");
             $table->string("lastname");
             $table->integer('gf')->nullable()->default(0);
+            $table->integer('visible')->nullable()->default(1);
             $table->timestamps();
         });
     }

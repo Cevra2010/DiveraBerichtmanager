@@ -1,6 +1,6 @@
 <div wire:poll.keep-alive.30s>
     @include("layout.error_success")
-    <x-headline text="Einsätze ohne Einsatzberichte"></x-headline>
+    <x-headline text="Einsätze ohne abgeschlossenen Einsatzberichte"></x-headline>
 
     <table class="table">
         <thead>

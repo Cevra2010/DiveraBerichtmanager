@@ -37,6 +37,13 @@
                 <option value="0">Nein</option>
             </select>
         </div>
+        <div class="zis-form-group">
+            <label for="gf" class="zis-form-label">Sichbar für Einsatzdokumentation</label>
+            <select class="zis-form-input" wire:model="personal.visible">
+                <option value="1">Ja</option>
+                <option value="0">Nein</option>
+            </select>
+        </div>
         <div class="flex space-x-2">
             <button type="submit" class="btn btn-green">Speichern</button>
             <button type="button" wire:click="abort" class="btn btn-red">Abbrechen</button>

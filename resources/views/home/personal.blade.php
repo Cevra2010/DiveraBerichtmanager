@@ -11,16 +11,23 @@
                 <th>Nachname</th>
                 <th>Vorname</th>
                 <th>Gruppenführer</th>
-                <th>Einsatzdienst</th>
+                <th>Sichbar für Einsatzbericht</th>
             </tr>
         </thead>
         <tbody>
             @foreach($personal as $person)
-                <tr>
+                <tr class="@if($loop->odd) bg-gray-200 @endif">
                     <td>{{ $person->lastname }}</td>
                     <td>{{ $person->firstname }}</td>
                     <td>
                         @if($person->gf == 1)
+                            Ja
+                        @else
+                            Nein
+                        @endif
+                    </td>
+                    <td>
+                        @if($person->visible == 1)
                             Ja
                         @else
                             Nein

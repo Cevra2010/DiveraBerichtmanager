@@ -21,7 +21,7 @@
                         @foreach($positionen as $position)
                             <td class="w-12 @if($loop->parent->odd) bg-red-200 @else bg-red-100 @endif">
                                 @if($relationships->where('personal_id',$person->id)->where('position_id',$position->id)->count())
-                                    <a href="#unsetPosition">
+                                    <a href="#setPosition" wire:click="unsetPosition('{{ $person->id }}','{{ $position->id }}');">
                                         <div class="w-full h-8 bg-green-600">
                                             &nbsp;
                                         </div>

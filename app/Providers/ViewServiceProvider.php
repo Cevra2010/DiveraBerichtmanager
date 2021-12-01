@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Storage;
 use Zis\Ext\SettingsManager\Setting;
+use function view;
 
 class ViewServiceProvider extends ServiceProvider
 {
@@ -14,13 +16,14 @@ class ViewServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        if(!$logo = Setting::get('logo')) {
-            $logo = asset('img/logo.svg');
+        if(\Schema::hasTable('settings')) {
+            if (!$logo = Setting::get('logo')) {
+                $logo = asset('img/logo.svg');
+            } else {
+                $logo = Storage::url(Setting::get('logo'));
+            }
+            view()->share('application_logo', $logo);
+            view()->share('application_organisation', Setting::get('organisation'));
         }
-        else {
-            $logo = \Storage::url(Setting::get('logo'));
-        }
-        \view()->share('application_logo',$logo);
-        \view()->share('application_organisation',Setting::get('organisation'));
     }
 }

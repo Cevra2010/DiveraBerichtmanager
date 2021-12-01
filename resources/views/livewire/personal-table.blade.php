@@ -8,6 +8,7 @@
                 <th>Vorname</th>
                 <th>Nachname</th>
                 <th>Gruppenführer</th>
+                <th>Sichtbar</th>
                 <th>Aktionen</th>
             </tr>
         </thead>
@@ -19,6 +20,13 @@
                     <td>{{ $person->lastname }}</td>
                     <td>
                         @if($person->gf)
+                            Ja
+                        @else
+                            Nein
+                        @endif
+                    </td>
+                    <td>
+                        @if($person->visible)
                             Ja
                         @else
                             Nein

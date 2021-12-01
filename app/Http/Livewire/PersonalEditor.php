@@ -18,9 +18,14 @@ class PersonalEditor extends Component
         $this->bericht = $bericht;
     }
 
+    /**
+     * Anklickbaren Personalbericht anzeigen.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
-        $personal = Personal::orderBy('lastname')->get();
+        $personal = Personal::where('visible',1)->orderBy('lastname')->get();
         $funktionen = Funktionen::orderBy('order')->get();
         $positionen = Position::orderBy('order')->get();
         $relationships = BerichtRelationship::where('bericht_id',$this->bericht->id)->get();
@@ -34,6 +39,12 @@ class PersonalEditor extends Component
             ]);
     }
 
+    /**
+     * Einer Person in bezug auf einen Einsatzbericht eine Funktion zuweisen.
+     *
+     * @param Personal $personal
+     * @param Funktionen $funktion
+     */
     public function setFunktion(Personal $personal, Funktionen $funktion) {
         if($relationship = BerichtRelationship::where('bericht_id',$this->bericht->id)->where('personal_id',$personal->id)->first()) {
             $relationship->position_id = 0;
@@ -49,6 +60,11 @@ class PersonalEditor extends Component
         $this->emit('$refresh');
     }
 
+    /**
+     * Einer Person in Bezug auf einen Einsatzbericht eine Funktion löse.
+     *
+     * @param Personal $personal
+     */
     public function unsetFunktion(Personal $personal) {
         if($relationship = BerichtRelationship::where('bericht_id',$this->bericht->id)->where('personal_id',$personal->id)->first()) {
             $relationship->delete();
@@ -56,6 +72,12 @@ class PersonalEditor extends Component
         $this->emit('$refresh');
     }
 
+    /**
+     * Eine Position in Bezug auf einer Funktion und einem Bericht eine Position zuweisen.
+     *
+     * @param Personal $personal
+     * @param Position $position
+     */
     public function setPosition(Personal $personal, Position $position) {
         // Bereits einer Funktion zugeordnet..
         $relationship = BerichtRelationship::where('personal_id',$personal->id)->where('bericht_id',$this->bericht->id)->first();
@@ -69,8 +91,24 @@ class PersonalEditor extends Component
             return session()->flash('custom_error','Diese Position ist bereits vergeben.');
         }
 
+        // Pürfen ob bereits eine Position festgelegt
+        if(BerichtRelationship::where('bericht_id',$this->bericht->id)->where('position_id','!=',0)->where('personal_id',$personal->id)->count()) {
+            return session()->flash('custom_error','Dieser Person ist bereits eine Position zugewiesen.');
+        }
+
         $relationship->position_id = $position->id;
         $relationship->save();
+    }
 
+    /**
+     *  Zurücksetzen einer Position
+     *
+     * @param Personal $personal
+     * @param Position $position
+     */
+    public function unsetPosition(Personal $personal, Position $position) {
+        $relationship = BerichtRelationship::where('personal_id',$personal->id)->where('bericht_id',$this->bericht->id)->first();
+        $relationship->position_id = 0;
+        $relationship->save();
     }
 }

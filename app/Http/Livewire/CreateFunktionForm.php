@@ -8,16 +8,31 @@ use Livewire\Component;
 class CreateFunktionForm extends Component
 {
 
+    /**
+     * Name
+     *
+     * @var
+     */
     public $name;
+
+
     public $rules = [
         'name' => 'required|unique:funktionens',
     ];
 
+    /**
+     * Rückgabe der View
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
         return view('livewire.create-funktion-form');
     }
 
+    /**
+     *  Empfangen des Formulars für eine neue Funktion
+     */
     public function submit() {
         $this->validate();
 

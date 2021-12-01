@@ -2,6 +2,7 @@
 
 namespace Zis\Ext\DiveraRequest;
 
+use Http;
 use Illuminate\Http\Client\ConnectionException;
 
 class DiveraRequest {
@@ -43,14 +44,14 @@ class DiveraRequest {
         try {
             if($this->data) {
                 if($this->put) {
-                    $request = \Http::put($url, $this->data)->json();
+                    $request = Http::put($url, $this->data)->json();
                 }
                 else {
-                    $request = \Http::post($url, $this->data)->json();
+                    $request = Http::post($url, $this->data)->json();
                 }
             }
             else {
-                $request = \Http::get($url)->json();
+                $request = Http::get($url)->json();
             }
             if(isset($request['success'])) {
                 if($this->data) {

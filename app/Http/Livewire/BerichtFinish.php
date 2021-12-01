@@ -14,21 +14,58 @@ use Zis\Ext\SettingsManager\Setting;
 class BerichtFinish extends Component
 {
 
+    /**
+     * Validierungsfehler
+     *
+     * @var array
+     */
     public $validationErrors = [];
+
+    /**
+     * Bericht-ID
+     *
+     * @var
+     */
     public $bericht_id;
+
+    /**
+     * E-Mail Adresse ( für Divera-Login )
+     *
+     * @var
+     */
     public $email;
+
+    /**
+     * Passwort ( für Divera-Login )
+     *
+     * @var
+     */
     public $password;
 
+    /**
+     * Löst die Prüfung auf Validationsfehler aus und gibt die View zurück.
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
         $this->checkValidationErrors();
         return view('livewire.bericht-finish');
     }
 
+    /**
+     * Initiale registrierung der Bericht-ID
+     *
+     * @param Bericht $bericht
+     */
     public function mount(Bericht $bericht) {
         $this->bericht_id = $bericht->id;
     }
 
+    /**
+     *  Prüft den aktuellen Bericht auf vollständigkeit der Pflictfeler.
+     *  Werden Fehler gefunden, werden die im array registriert.
+     */
     public function checkValidationErrors() {
         $this->validationErrors = [];
         $bericht = Bericht::find($this->bericht_id);
@@ -38,6 +75,11 @@ class BerichtFinish extends Component
         }
     }
 
+    /**
+     *  Übermittlung der Formulareingabe zum Abschluss des Einsatzes
+     *  Validierung der Anmeldedaten per Divera247 API
+     *
+     */
     public function submit() {
         $this->validate([
             'email' => 'required|email',
@@ -58,6 +100,10 @@ class BerichtFinish extends Component
         }
     }
 
+    /**
+     *  Bericht fertigstellen und diesen per API-Rquest in das "report"-Feld des Alarms
+     *  bei Divera247 setzen.
+     */
     private function finishBericht() {
         $bericht = Bericht::find($this->bericht_id);
         $text = $this->generateBerichtText($this->email);
@@ -74,6 +120,12 @@ class BerichtFinish extends Component
     }
 
 
+    /**
+     * Generation des Bericht-Textes für das Divera247 "report"-Feld
+     *
+     * @param null $signatur Signatur ( E-Mail Adresse ) für den Bericht
+     * @return string Einsatzbericht in Textform
+     */
     private function generateBerichtText($signatur = null) {
 
         $bericht = Bericht::find($this->bericht_id);

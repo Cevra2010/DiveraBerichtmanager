@@ -11,6 +11,11 @@ class PersonalTable extends Component
         'personal_updated' => '$refresh',
     ];
 
+    /**
+     * View zurückgeben
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
         $personal = Personal::all();

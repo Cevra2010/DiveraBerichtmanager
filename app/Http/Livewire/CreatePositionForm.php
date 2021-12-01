@@ -12,11 +12,19 @@ class CreatePositionForm extends Component
         'name' => 'required|unique:positions',
     ];
 
+    /**
+     * Rückgabe der View
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
     public function render()
     {
         return view('livewire.create-position-form');
     }
 
+    /**
+     *  Neue  Position hinzurügen
+     */
     public function submit() {
         $this->validate();
 

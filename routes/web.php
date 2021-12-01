@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\PersonalController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\BerichtController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +19,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 /** Auth Routes */
-Route::get("Anmelden",[\App\Http\Controllers\Auth\LoginController::class,'index'])
+Route::get("Anmelden",[LoginController::class,'index'])
     ->name("login");
-Route::post("Anmelden",[\App\Http\Controllers\Auth\LoginController::class,'submitLogin'])
+Route::post("Anmelden",[LoginController::class,'submitLogin'])
     ->name("login.submit");
-Route::post("Abmelden",[\App\Http\Controllers\Auth\LoginController::class,'logout'])
+Route::post("Abmelden",[LoginController::class,'logout'])
     ->name("logout");
 
 /** DEFAULT REDIRECTION ROUTES */
@@ -35,11 +40,11 @@ Route::get("/Admin",function() {
 Route::get('/Start',[\App\Http\Controllers\HomeController::class,'index'])
     ->name("index");
 
-Route::get('/Einsatzberichte',[\App\Http\Controllers\BerichtController::class,'index'])
+Route::get('/Einsatzberichte',[BerichtController::class,'index'])
     ->name("berichte");
-Route::get('/Einsatzbericht/Anlegen/{alarm}',[\App\Http\Controllers\BerichtController::class,'create'])
+Route::get('/Einsatzbericht/Anlegen/{alarm}',[BerichtController::class,'create'])
     ->name("bericht.create");
-Route::get('/Einsatzbericht/{bericht}',[\App\Http\Controllers\BerichtController::class,'show'])
+Route::get('/Einsatzbericht/{bericht}',[BerichtController::class,'show'])
     ->name("bericht.show");
 Route::get('/Personal',[\App\Http\Controllers\HomeController::class,'personal'])
     ->name("personal");
@@ -47,22 +52,22 @@ Route::get('/Personal/Download',[\App\Http\Controllers\HomeController::class,'do
     ->name("personal.download");
 
 Route::prefix("Admin/")->name("admin.")->middleware("auth")->group(function () {
-    Route::get("/Start",[\App\Http\Controllers\Admin\HomeController::class,'index'])
+    Route::get("/Start",[HomeController::class,'index'])
         ->name("index");
-    Route::get('/Personal',[\App\Http\Controllers\Admin\PersonalController::class,'index'])
+    Route::get('/Personal',[PersonalController::class,'index'])
         ->name("personal");
-    Route::get('/Einstellungen',[\App\Http\Controllers\Admin\SettingController::class,'index'])
+    Route::get('/Einstellungen',[SettingController::class,'index'])
         ->name("setting");
-    Route::post('/Einstellungen/Speichern',[\App\Http\Controllers\Admin\SettingController::class,'storeSetting'])
+    Route::post('/Einstellungen/Speichern',[SettingController::class,'storeSetting'])
         ->name("setting.store");
-    Route::post('/Einstellungen/Passwort/peichern',[\App\Http\Controllers\Admin\SettingController::class,'storePassword'])
+    Route::post('/Einstellungen/Passwort/peichern',[SettingController::class,'storePassword'])
         ->name("setting.password.store");
-    Route::post('/Logo',[\App\Http\Controllers\Admin\SettingController::class,'storeLogo'])
+    Route::post('/Logo',[SettingController::class,'storeLogo'])
         ->name("setting.logo");
-    Route::post('/Logo/Reset',[\App\Http\Controllers\Admin\SettingController::class,'resetLogo'])
+    Route::post('/Logo/Reset',[SettingController::class,'resetLogo'])
         ->name("setting.logo.reset");
-    Route::get('/Funktionen',[\App\Http\Controllers\Admin\SettingController::class,'funktionen'])
+    Route::get('/Funktionen',[SettingController::class,'funktionen'])
         ->name("setting.funktionen");
-    Route::get('/Positionen',[\App\Http\Controllers\Admin\SettingController::class,'positionen'])
+    Route::get('/Positionen',[SettingController::class,'positionen'])
         ->name("setting.positionen");
 });
