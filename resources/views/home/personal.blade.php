@@ -28,9 +28,9 @@
                     </td>
                     <td>
                         @if($person->visible == 1)
-                            Ja
+                            <i class="text-green-600 fas fa-check"></i>
                         @else
-                            Nein
+
                         @endif
                     </td>
                 </tr>
