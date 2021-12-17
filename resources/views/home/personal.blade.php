@@ -20,10 +20,10 @@
                     <td>{{ $person->lastname }}</td>
                     <td>{{ $person->firstname }}</td>
                     <td>
-                        @if($person->gf == 1)
-                            Ja
+                        @if($person->gf)
+                            <i class="text-green-600 fas fa-check"></i>
                         @else
-                            Nein
+
                         @endif
                     </td>
                     <td>
