@@ -3,6 +3,7 @@
 namespace Zis\Ext\SettingsManager;
 
 use Exception;
+use Illuminate\Database\QueryException;
 
 class Setting {
 
@@ -12,8 +13,13 @@ class Setting {
      * @throws Exception
      */
     public static function boot() {
-        if(!self::loadSettingsFromDatabase()) {
-            throw new Exception('Unable to Load Settings');
+        try {
+            if (!self::loadSettingsFromDatabase()) {
+
+            }
+        }
+        catch(QueryException $e) {
+
         }
     }
 
