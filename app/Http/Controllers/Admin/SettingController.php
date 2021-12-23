@@ -25,6 +25,7 @@ class SettingController extends Controller
     {
         $organisation = Setting::get('organisation');
         $alarm_api_key = Setting::get('alarm_api_key');
+        $ud_only_logged_in = Setting::get('ud_only_logged_in');
 
         if(!$logo = Storage::exists(Setting::get('logo'))) {
             $logo = null;
@@ -37,6 +38,7 @@ class SettingController extends Controller
             'logo',
             'organisation',
             'alarm_api_key',
+            'ud_only_logged_in',
         ]));
     }
 
@@ -50,6 +52,7 @@ class SettingController extends Controller
     {
         Setting::set('organisation',$request->get('organisation'));
         Setting::set('alarm_api_key',$request->get("alarm_api_key"));
+        Setting::set('ud_only_logged_in',$request->get('ud_only_logged_in'));
         session()->flash('success','Die Einstellungen wurden gespeichert.');
         return redirect()->back();
     }

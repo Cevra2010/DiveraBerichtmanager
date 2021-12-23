@@ -9,6 +9,12 @@
         </div>
     </a>
 
+    <a href="{{ route("admin.uebung") }}">
+        <div class="p-4 hover:bg-gray-500 hover:text-gray-50">
+            Übungsberichte
+        </div>
+    </a>
+
     <a href="{{ route("admin.personal") }}">
         <div class="p-4 hover:bg-gray-500 hover:text-gray-50">
             Personal

@@ -54,12 +54,18 @@ Route::get('/Personal',[\App\Http\Controllers\HomeController::class,'personal'])
     ->name("personal");
 Route::get('/Personal/Download',[\App\Http\Controllers\HomeController::class,'download'])
     ->name("personal.download");
+Route::get('/Uebung/Erstellen',[\App\Http\Controllers\Uebung\UebungController::class,'create'])
+    ->name("uebung.create");
+Route::post('/Uebung/Erstellen',[\App\Http\Controllers\Uebung\UebungController::class,'store'])
+    ->name("uebung.store");
 
 Route::prefix("Admin/")->name("admin.")->middleware("auth")->group(function () {
     Route::get("/Start",[HomeController::class,'index'])
         ->name("index");
     Route::get('/Berichte',[\App\Http\Controllers\Admin\AdminBerichtController::class,'index'])
         ->name("berichte");
+    Route::get('/Uebung/Berichte',[\App\Http\Controllers\Admin\AdminBerichtController::class,'uebung'])
+        ->name("uebung");
     Route::get('/Bericht/{bericht}',[\App\Http\Controllers\Admin\AdminBerichtController::class,'show'])
         ->name("bericht.show");
     Route::get('/Personal',[PersonalController::class,'index'])

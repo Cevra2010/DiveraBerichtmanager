@@ -19,6 +19,13 @@
                 <label class="zis-form-label" for="alarm_api_key">Divera Alarm API-Key</label>
                 <input type="text" name="alarm_api_key" class="zis-form-input" value="{{ old("alarm_api_key",$alarm_api_key) }}">
             </div>
+            <div class="zis-form-group">
+                <label class="zis-form-label" for="alarm_api_key">Übungsdienst nur für Administratoren verwaltbar?</label>
+                <select name="ud_only_logged_in" class="zis-form-input">
+                    <option value="1" @if($ud_only_logged_in) selected @endif>Ja</option>
+                    <option value="0" @if(!$ud_only_logged_in) selected @endif>Nein</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-indigo">Einstellungen speichern</button>
         </form>
     </div>

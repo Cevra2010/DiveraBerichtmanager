@@ -43,6 +43,13 @@ class BerichtFinish extends Component
     public $password;
 
     /**
+     * Übungsbericht ja/nein
+     *
+     * @var
+     */
+    public $uebung = false;
+
+    /**
      * Löst die Prüfung auf Validationsfehler aus und gibt die View zurück.
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -69,10 +76,15 @@ class BerichtFinish extends Component
     public function checkValidationErrors() {
         $this->validationErrors = [];
         $bericht = Bericht::find($this->bericht_id);
-        if(!$bericht->text_2)
+        if($bericht->alarm->is_uebung)
         {
+            $this->uebung = true;
+        }
+
+        if (!$bericht->text_2) {
             $this->validationErrors[] = 'Das Pflichtfeld "Tätigkeiten der Feuerwehr" ist nicht ausgefüllt.';
         }
+
     }
 
     /**
@@ -81,26 +93,30 @@ class BerichtFinish extends Component
      *
      */
     public function submit() {
-        $this->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
-        $diveraRequest = new DiveraRequest(Setting::get('alarm_api_key'));
-        $diveraRequest->method('auth/login');
-        $diveraRequest->setData(['Login' => [
-            'username' => $this->email,
-            'password' => $this->password,
-        ]]);
-        $result = $diveraRequest->execute();
-        if($diveraRequest->getErrorCode() == "connection") {
+        if($this->uebung) {
             return $this->finishBericht(false);
         }
-
-        if(!$result) {
-            return session()->flash('custom_error','Login war nicht erfolgreich.');
-        }
         else {
-            return $this->finishBericht();
+            $this->validate([
+                'email' => 'required|email',
+                'password' => 'required',
+            ]);
+            $diveraRequest = new DiveraRequest(Setting::get('alarm_api_key'));
+            $diveraRequest->method('auth/login');
+            $diveraRequest->setData(['Login' => [
+                'username' => $this->email,
+                'password' => $this->password,
+            ]]);
+            $result = $diveraRequest->execute();
+            if ($diveraRequest->getErrorCode() == "connection") {
+                return $this->finishBericht(false);
+            }
+
+            if (!$result) {
+                return session()->flash('custom_error', 'Login war nicht erfolgreich.');
+            } else {
+                return $this->finishBericht();
+            }
         }
     }
 
@@ -135,57 +151,67 @@ class BerichtFinish extends Component
      * @param null $signatur Signatur ( E-Mail Adresse ) für den Bericht
      * @return string Einsatzbericht in Textform
      */
-    private function generateBerichtText($signatur = null) {
+    private function generateBerichtText($signatur = null)
+    {
 
         $bericht = Bericht::find($this->bericht_id);
         $text = '';
 
-        $text = "\n\n *** Einsatzbericht *** \n\n";
-
-        if($bericht->hauptbericht) {
-            $text .= "[ X ] Hauptbericht\n";
-            $text .= "[   ] Nebenbericht\n\n";
-
+        if ($bericht->alarm->is_uebung)
+        {
+            $text = "\n\n *** Übungsbericht *** \n\n";
+            $text .= "besonderheiten zum Übungsdienst:\n";
+            $text .= $bericht->text_2;
+            $text .= "\n\n";
         }
         else {
-            $text .= "[   ] Hauptbericht\n";
-            $text .= "[ X ] Nebenbericht\n\n";
+
+
+            $text = "\n\n *** Einsatzbericht *** \n\n";
+
+            if ($bericht->hauptbericht) {
+                $text .= "[ X ] Hauptbericht\n";
+                $text .= "[   ] Nebenbericht\n\n";
+
+            } else {
+                $text .= "[   ] Hauptbericht\n";
+                $text .= "[ X ] Nebenbericht\n\n";
+            }
+            $text .= "Lage beim Eintreffen:\n";
+            $text .= $bericht->text_1;
+            $text .= "\n\n";
+
+            $text .= "Tätigkeiten der Feuerwehr:\n";
+            $text .= $bericht->text_2;
+            $text .= "\n\n";
+
+            $text .= "Geschädigter:\n";
+            $text .= $bericht->text_3;
+            $text .= "\n\n";
+
+            $text .= "Eigentümer:\n";
+            $text .= $bericht->text_4;
+            $text .= "\n\n";
+
+            $text .= "Material:\n";
+            $text .= $bericht->text_5;
+            $text .= "\n\n";
+
+            $text .= "Sonstiges:\n";
+            $text .= $bericht->text_6;
+            $text .= "\n\n";
+
+            $text .= "Bericht digital Unterzeichnet durch:\n";
+            if ($signatur) {
+                $text .= $signatur;
+            } else {
+                $text .= '*** Bericht noch nicht unterzeichnet ***';
+            }
+
+            $text .= "\n\n";
+            $text .= "*** Personaleinsatz ***\n";
+            $text .= "\n";
         }
-        $text .= "Lage beim Eintreffen:\n";
-        $text .= $bericht->text_1;
-        $text .= "\n\n";
-
-        $text .= "Tätigkeiten der Feuerwehr:\n";
-        $text .= $bericht->text_2;
-        $text .= "\n\n";
-
-        $text .= "Geschädigter:\n";
-        $text .= $bericht->text_3;
-        $text .= "\n\n";
-
-        $text .= "Eigentümer:\n";
-        $text .= $bericht->text_4;
-        $text .= "\n\n";
-
-        $text .= "Material:\n";
-        $text .= $bericht->text_5;
-        $text .= "\n\n";
-
-        $text .= "Sonstiges:\n";
-        $text .= $bericht->text_6;
-        $text .= "\n\n";
-
-        $text .= "Bericht digital Unterzeichnet durch:\n";
-        if($signatur) {
-            $text .= $signatur;
-        }
-        else {
-            $text .= '*** Bericht noch nicht unterzeichnet ***';
-        }
-
-        $text .= "\n\n";
-        $text .= "*** Personaleinsatz ***\n";
-        $text .= "\n";
 
         foreach(Funktionen::orderBy('order')->get() as $funktion) {
             $text .= "--- " . $funktion->name . " ---\n";

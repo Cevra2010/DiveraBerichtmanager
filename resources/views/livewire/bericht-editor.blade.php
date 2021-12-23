@@ -37,6 +37,15 @@
     @switch($section)
         @case("overview")
         <h1 class="font-semibold text-2xl mt-10 mb-2">Übersicht</h1>
+            @if($bericht->alarm->is_uebung)
+
+            <table class="table">
+                <tr>
+                    <td class="w-1/4"><b>Thema</b></td>
+                    <td>{{ $bericht->alarm->bemerkung }}</td>
+                </tr>
+            </table>
+            @else
             <table class="table">
                 <tr>
                     <td class="w-1/4"><b>Einsatznummer</b></td>
@@ -65,6 +74,7 @@
                     <td>{{ $bericht->alarm->bemerkung }}</td>
                 </tr>
             </table>
+            @endif
             @break
         @case("personal")
             @livewire("personal-editor",['bericht' => $bericht])

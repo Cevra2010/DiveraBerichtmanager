@@ -9,8 +9,15 @@ class AdminBerichtController extends Controller
 {
     public function index()
     {
+        $berichte = Bericht::orderBy('created_at', 'DESC')->get();
+        return view("admin.berichte.index", [
+            'berichte' => $berichte,
+        ]);
+    }
+    public function uebung()
+    {
         $berichte = Bericht::orderBy('created_at','DESC')->get();
-        return view("admin.berichte.index",[
+        return view("admin.berichte.uebung",[
             'berichte' => $berichte,
         ]);
     }
