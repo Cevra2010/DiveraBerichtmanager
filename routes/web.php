@@ -42,6 +42,10 @@ Route::get('/Start',[\App\Http\Controllers\HomeController::class,'index'])
 
 Route::get('/Einsatzberichte',[BerichtController::class,'index'])
     ->name("berichte");
+Route::get('/Einsatzbericht/Neu',[BerichtController::class,'new'])
+    ->name("bericht.new");
+route::post('/Einsatzbericht/Neu',[BerichtController::class,'storeNew'])
+    ->name("bericht.new.store");
 Route::get('/Einsatzbericht/Anlegen/{alarm}',[BerichtController::class,'create'])
     ->name("bericht.create");
 Route::get('/Einsatzbericht/{bericht}',[BerichtController::class,'show'])
@@ -54,6 +58,10 @@ Route::get('/Personal/Download',[\App\Http\Controllers\HomeController::class,'do
 Route::prefix("Admin/")->name("admin.")->middleware("auth")->group(function () {
     Route::get("/Start",[HomeController::class,'index'])
         ->name("index");
+    Route::get('/Berichte',[\App\Http\Controllers\Admin\AdminBerichtController::class,'index'])
+        ->name("berichte");
+    Route::get('/Bericht/{bericht}',[\App\Http\Controllers\Admin\AdminBerichtController::class,'show'])
+        ->name("bericht.show");
     Route::get('/Personal',[PersonalController::class,'index'])
         ->name("personal");
     Route::get('/Einstellungen',[SettingController::class,'index'])

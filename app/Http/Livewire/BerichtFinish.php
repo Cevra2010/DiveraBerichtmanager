@@ -92,11 +92,15 @@ class BerichtFinish extends Component
             'password' => $this->password,
         ]]);
         $result = $diveraRequest->execute();
+        if($diveraRequest->getErrorCode() == "connection") {
+            return $this->finishBericht(false);
+        }
+
         if(!$result) {
             return session()->flash('custom_error','Login war nicht erfolgreich.');
         }
         else {
-            $this->finishBericht();
+            return $this->finishBericht();
         }
     }
 
@@ -104,16 +108,21 @@ class BerichtFinish extends Component
      *  Bericht fertigstellen und diesen per API-Rquest in das "report"-Feld des Alarms
      *  bei Divera247 setzen.
      */
-    private function finishBericht() {
+    private function finishBericht($connectionEstablished = true) {
         $bericht = Bericht::find($this->bericht_id);
         $text = $this->generateBerichtText($this->email);
-        $diveraRequest = new DiveraRequest(Setting::get('alarm_api_key'));
-        $diveraRequest->put('alarms/'.$bericht->alarm->alarm_id);
-        $diveraRequest->setData(['Alarm' => [
-            'report' => $text,
-        ]]);
-        $diveraRequest->execute();
+
+        if($connectionEstablished) {
+            $diveraRequest = new DiveraRequest(Setting::get('alarm_api_key'));
+            $diveraRequest->put('alarms/' . $bericht->alarm->alarm_id);
+            $diveraRequest->setData(['Alarm' => [
+                'report' => $text,
+            ]]);
+            $diveraRequest->execute();
+        }
         $bericht->alarm->closed_at = Carbon::now();
+        $bericht->gesamtbericht = $text;
+        $bericht->save();
         $bericht->alarm->save();
         session()->flash('success','Der Bericht wurde erfolgreich gespeichert.');
         return $this->redirect("/");

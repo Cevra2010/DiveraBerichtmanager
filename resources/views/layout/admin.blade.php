@@ -3,6 +3,12 @@
 @section("header")
 
 <div class="w-full items-center justify-center flex bg-indigo-900 text-gray-50 shadow-md">
+    <a href="{{ route("admin.berichte") }}">
+        <div class="p-4 hover:bg-gray-500 hover:text-gray-50">
+            Einsatzberichte
+        </div>
+    </a>
+
     <a href="{{ route("admin.personal") }}">
         <div class="p-4 hover:bg-gray-500 hover:text-gray-50">
             Personal

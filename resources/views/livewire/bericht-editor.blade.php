@@ -44,7 +44,13 @@
                 </tr>
                 <tr>
                     <td class="w-1/4"><b>Alarmzeit</b></td>
-                    <td>{{ $bericht->alarm->alarm_at->format("d.m.Y") }}</td>
+                    <td>
+                        @if($bericht->alarm->alarm_at)
+                        {{ $bericht->alarm->alarm_at->format("d.m.Y") }}
+                        @else
+                        -
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td class="w-1/4"><b>Adresse</b></td>

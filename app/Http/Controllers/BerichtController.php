@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreNewBerichtRequest;
 use App\Models\Alarm;
 use App\Models\Bericht;
+use Carbon\Carbon;
 
 class BerichtController extends Controller
 {
@@ -33,15 +35,36 @@ class BerichtController extends Controller
      * @param Alarm $alarm
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function create(Alarm $alarm) {
-        if($alarm->bericht) {
-            return redirect()->route("bericht.show",$alarm->bericht);
+    public function create(Alarm $alarm)
+    {
+        if ($alarm->bericht) {
+            return redirect()->route("bericht.show", $alarm->bericht);
         }
 
         $bericht = new Bericht();
-        $bericht->start_at = $alarm->alarm_at;
+        if ($alarm->alarm_at){
+            $bericht->start_at = $alarm->alarm_at;
+        }
+        else {
+            $bericht->start_at = Carbon::now();
+        }
         $bericht->alarm_id = $alarm->id;
         $bericht->save();
         return redirect()->route("bericht.show",$bericht);
+    }
+
+    public function new() {
+        return view("bericht.new");
+    }
+
+    public function storeNew(StoreNewBerichtRequest $request) {
+        $alarm = new Alarm();
+        $alarm->einsatz_nr = $request->get('einsatz_nr');
+        $alarm->stichwort = $request->get("stichwort");
+        $alarm->bemerkung = $request->get("bemerkung");
+        $alarm->address = $request->get("address");
+        $alarm->save();
+
+        return redirect()->route("berichte");
     }
 }

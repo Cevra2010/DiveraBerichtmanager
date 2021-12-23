@@ -17,7 +17,13 @@
                 <tr @if($loop->odd) class="bg-gray-200" @endif>
                     <td>{{ $alarm->einsatz_nr }}</td>
                     <td>{{ $alarm->stichwort }}</td>
-                    <td>{{ $alarm->alarm_at->format("d.m.Y, H:i") }} Uhr</td>
+                    <td>
+                        @if($alarm->alarm_at)
+                        {{ $alarm->alarm_at->format("d.m.Y, H:i") }} Uhr
+                        @else
+                        -
+                        @endif
+                    </td>
                     <td>{{ $alarm->address }}</td>
                     <td>
                         @if($alarm->bericht)
