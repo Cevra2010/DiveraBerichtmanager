@@ -6,6 +6,7 @@
         <thead>
             <tr>
                 <th>E-Nr.</th>
+                <th>Erstellt durch</th>
                 <th>Stichwort</th>
                 <th>Einsatzzeit</th>
                 <th>Adresse</th>
@@ -16,6 +17,13 @@
             @foreach($alarms->where("is_uebung",0) as $alarm)
                 <tr @if($loop->odd) class="bg-gray-200" @endif>
                     <td>{{ $alarm->einsatz_nr }}</td>
+                    <td>
+                        @if($alarm->alarm_id)
+                            Divera 24/2
+                        @else
+                            Nutzer
+                        @endif
+                    </td>
                     <td>{{ $alarm->stichwort }}</td>
                     <td>
                         @if($alarm->alarm_at)

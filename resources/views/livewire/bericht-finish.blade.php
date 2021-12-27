@@ -6,6 +6,21 @@
              <button type="submit" class="zis-form-submit">Übungsdienst speichern</button>
         </form>
     @else
+        @if(auth()->check())
+            <p class="font-bold mb-2 mt-10">Administration</p>
+            <hr class="mb-2">
+            <button class="btn btn-red" wire:click="archiv">als unerledigt Archivieren</button>
+            @if($archivQuestion)
+                <p class="mt-2">
+                    Möchten Sie diesen Bericht/Alarm wirklich unerledigt archivieren?
+                </p>
+                <p>
+                    <a href="#" class="underline" wire:click="archivConfirmed">Jetzt archivieren</a>
+                </p>
+            @endif
+            <hr class="mb-10 mt-2">
+        @endif
+
         <div class="font-semibold">- Bitte melden Sie sich mit ihren Divera Zugangsdaten an -</div>
         <p class="font-light">
             Die Anmeldung bei Divera dient als digitale Signatur.<br>

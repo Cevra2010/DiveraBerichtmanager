@@ -50,6 +50,12 @@ class BerichtFinish extends Component
     public $uebung = false;
 
     /**
+     * Admin-Archiv
+     * @var
+     */
+    public $archivQuestion = false;
+
+    /**
      * Löst die Prüfung auf Validationsfehler aus und gibt die View zurück.
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
@@ -58,6 +64,29 @@ class BerichtFinish extends Component
     {
         $this->checkValidationErrors();
         return view('livewire.bericht-finish');
+    }
+
+    /**
+     * Zeigt die confirmation an
+     */
+    public function archiv() {
+        if(auth()->check()) {
+            $this->archivQuestion = true;
+        }
+    }
+
+    /**
+     * Speichert den Bericht ohne weitere Angaben
+     *
+     * @return false|void
+     */
+    public function archivConfirmed() {
+        if($this->archivQuestion != true) {
+            return false;
+        }
+
+        $this->finishBericht(false);
+
     }
 
     /**
