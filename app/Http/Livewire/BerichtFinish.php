@@ -128,7 +128,7 @@ class BerichtFinish extends Component
         $bericht = Bericht::find($this->bericht_id);
         $text = $this->generateBerichtText($this->email);
 
-        if($connectionEstablished) {
+        if($connectionEstablished && $bericht->alarm->alarm_id != null) {
             $diveraRequest = new DiveraRequest(Setting::get('alarm_api_key'));
             $diveraRequest->put('alarms/' . $bericht->alarm->alarm_id);
             $diveraRequest->setData(['Alarm' => [
