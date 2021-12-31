@@ -7,7 +7,7 @@ use Livewire\Component;
 
 class BerichtEditor extends Component
 {
-    public $section = "atemschutz";
+    public $section = "overview";
     public $bericht;
 
     public function mount(Bericht $bericht) {
