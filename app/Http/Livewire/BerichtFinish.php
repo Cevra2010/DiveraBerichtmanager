@@ -170,7 +170,12 @@ class BerichtFinish extends Component
         $bericht->gesamtbericht = $text;
         $bericht->save();
         $bericht->alarm->save();
-        \Mail::to('wehrfuehrung@ff-dotzheim.de')->send(new EinsatzberichtFinished($bericht->gesamtbericht));
+        try {
+            \Mail::to('wehrfuehrung@ff-dotzheim.de')->send(new EinsatzberichtFinished($bericht->gesamtbericht));
+        }
+        catch(\Exception $e) {
+
+        }
         session()->flash('success','Der Bericht wurde erfolgreich gespeichert.');
         return $this->redirect("/");
     }
