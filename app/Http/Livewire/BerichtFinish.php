@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Mail\EinsatzberichtFinished;
 use App\Models\Bericht;
 use App\Models\BerichtRelationship;
 use App\Models\Funktionen;
@@ -169,6 +170,7 @@ class BerichtFinish extends Component
         $bericht->gesamtbericht = $text;
         $bericht->save();
         $bericht->alarm->save();
+        \Mail::to('wehrfuehrung@ff-dotzheim.de')->send(new EinsatzberichtFinished($bericht->gesamtbericht));
         session()->flash('success','Der Bericht wurde erfolgreich gespeichert.');
         return $this->redirect("/");
     }
@@ -184,6 +186,7 @@ class BerichtFinish extends Component
     {
 
         $bericht = Bericht::find($this->bericht_id);
+        $atemschutz = \App\Models\Atemschutz::where('bericht_id',$bericht->id)->get();
         $text = '';
 
         if ($bericht->alarm->is_uebung)
@@ -259,6 +262,24 @@ class BerichtFinish extends Component
                 $text .= "- keine Besatzung -\n";
             }
             $text .= "\n";
+        }
+
+        /**
+         * Atemschutz
+         */
+        $text .= "*** Atemschutz ***";
+        $text .= "\n";
+        $text .= "\n";
+        if($atemschutz->count()) {
+            foreach($atemschutz as $atem) {
+                $text .= "### ".$atem->personal->lastname.", ".$atem->personal->firstname."### \n";
+                $text .= "Gerät: ".$atem->geraet_nr." => ".$atem->minutes." Minute/n\n";
+                $text .= "Tätigkeit: ".$atem->tatigkeit."\n";
+                $text .= "\n";
+            }
+        }
+        else {
+            $text .= "- Es wurde keine Kräfte unter Atemschutz eingesetzt. -";
         }
 
         return $text;

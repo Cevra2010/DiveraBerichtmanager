@@ -22,4 +22,15 @@ class Bericht extends Model
     public function personal() {
         return $this->belongsToMany(Personal::class,'bericht_personal');
     }
+
+    public function atemschutz() {
+        return $this->hasMany(Atemschutz::class,'id','id');
+    }
+
+    public function atemschutzExists(Personal $personal) {
+        if(Atemschutz::where('personal_id',$personal->id)->where('bericht_id',$this->id)->count()) {
+            return true;
+        }
+        return false;
+    }
 }

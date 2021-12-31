@@ -24,6 +24,14 @@
         <div class="border-b border-gray-300 w-3">
 
         </div>
+        <a href="#" wire:click="setSection('atemschutz');">
+            <div class="p-2 pl-5 pr-5 rounded-tl-md rounded-tr-md border-t border-r border-l border-gray-300 @if($section != "atemschutz") border-b @endif">
+                Atemschutz
+            </div>
+        </a>
+        <div class="border-b border-gray-300 w-3">
+
+        </div>
         <a href="#" wire:click="setSection('finish');">
             <div class="p-2 pl-5 pr-5 rounded-tl-md rounded-tr-md border-t border-r border-l border-gray-300 @if($section != "finish") border-b @endif">
                 Abschluss
@@ -81,6 +89,9 @@
             @break;
         @case("bericht")
             @livewire("bericht-text-editor",['bericht' => $bericht])
+            @break
+        @case("atemschutz")
+            @livewire("atemschutz",['bericht' => $bericht])
             @break
         @case("finish")
             @livewire("bericht-finish",['bericht' => $bericht])
