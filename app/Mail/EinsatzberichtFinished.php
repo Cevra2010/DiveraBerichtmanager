@@ -30,9 +30,9 @@ class EinsatzberichtFinished extends Mailable
      */
     public function build()
     {
-        return $this->from("intranet@ff-dotzheim.de","Intranet der FF-Dotzheim")
+        return $this->from(config("mail.from.address"),config("mail.from"))
         ->with('content',$this->content)
-        ->subject("Neuer Einsatzbericht - Intranet FF-Dotzheim")
+        ->subject("Neuer Einsatzbericht - ".config("app.name"))
         ->view('mail.bericht');
     }
 }

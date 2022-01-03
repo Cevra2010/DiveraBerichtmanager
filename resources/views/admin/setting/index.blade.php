@@ -26,6 +26,13 @@
                     <option value="0" @if(!$ud_only_logged_in) selected @endif>Nein</option>
                 </select>
             </div>
+            <div class="zis-form-group">
+                <label class="zis-form-label" for="bericht_autodelete">Berichte nach 30 Tagen automatisch löschen?</label>
+                <select name="bericht_autodelete" class="zis-form-input">
+                    <option value="1" @if($bericht_autodelete) selected @endif>Ja</option>
+                    <option value="0" @if(!$bericht_autodelete) selected @endif>Nein</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-indigo">Einstellungen speichern</button>
         </form>
     </div>
@@ -43,6 +50,28 @@
                 <input type="password" name="password_confirmation" class="zis-form-input">
             </div>
             <button type="submit" class="btn btn-indigo">Passwort speichern</button>
+        </form>
+    </div>
+
+    <x-headline text="E-Mail versand"/>
+    <p class="text-gray-600 text-sm mt-4 mb-4">
+        Für den Versand von E-Mail richten Sie bitte eine SMTP-Verbindung in der .env Datei ein.
+    </p>
+    <div class="mb-10">
+        <form action="{{ route("admin.setting.email.store") }}" method="POST">
+            @csrf
+            <div class="zis-form-group">
+                <label class="zis-form-label" for="alarm_api_key">E-Mail Benachrichtigung nach erstelltem Einsatzbericht versenden?</label>
+                <select name="email_reporting" class="zis-form-input">
+                    <option value="1" @if($email_reporting) selected @endif>Ja</option>
+                    <option value="0" @if(!$email_reporting) selected @endif>Nein</option>
+                </select>
+            </div>
+            <div class="zis-form-group">
+                <label class="zis-form-label" for="email_to">E-Mail Empfänger</label>
+                <input type="text" name="email_reporting_to" value="{{ $email_reporting_to }}" class="zis-form-input">
+            </div>
+            <button type="submit" class="btn btn-indigo">E-Mail Einstellungen speichern</button>
         </form>
     </div>
 

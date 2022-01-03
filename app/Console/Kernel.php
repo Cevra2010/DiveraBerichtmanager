@@ -2,9 +2,12 @@
 
 namespace App\Console;
 
+use App\Console\Commands\AutodeleteBerichteCommand;
 use App\Console\Commands\CheckAlarmsCommand;
+use App\Models\Bericht;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Zis\Ext\SettingsManager\Setting;
 
 class Kernel extends ConsoleKernel
 {
@@ -16,6 +19,7 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
         CheckAlarmsCommand::class,
+        AutodeleteBerichteCommand::class,
     ];
 
     /**
@@ -27,6 +31,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->command('check_alarms')->everyMinute();
+        $schedule->command('autodelete_berichte')->everyThirtyMinutes();
     }
 
     /**

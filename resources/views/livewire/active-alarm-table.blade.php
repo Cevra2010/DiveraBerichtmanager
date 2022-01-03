@@ -10,7 +10,7 @@
                 <th>Stichwort</th>
                 <th>Einsatzzeit</th>
                 <th>Adresse</th>
-                <th>Aktionen</th>
+                <th class="w-40">Aktionen</th>
             </tr>
         </thead>
         <tbody>
@@ -54,9 +54,9 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Erstellt</th>
+                <th class="w-42">Erstellt</th>
                 <th>Thema</th>
-                <th>Aktionen</th>
+                <th class="w-40">Aktionen</th>
             </tr>
             </thead>
             <tbody>

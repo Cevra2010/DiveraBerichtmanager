@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreLogoRequest;
+use App\Http\Requests\StoreEmailReportingRequest;
 use App\Http\Requests\StorePasswordRequest;
 use App\Http\Requests\StoreSettingRequest;
 use App\Models\User;
@@ -26,6 +27,9 @@ class SettingController extends Controller
         $organisation = Setting::get('organisation');
         $alarm_api_key = Setting::get('alarm_api_key');
         $ud_only_logged_in = Setting::get('ud_only_logged_in');
+        $email_reporting = Setting::get('email_reporting');
+        $email_reporting_to = Setting::get('email_reporting_to');
+        $bericht_autodelete = Setting::get('bericht_autodelete');
 
         if(!$logo = Storage::exists(Setting::get('logo'))) {
             $logo = null;
@@ -39,6 +43,9 @@ class SettingController extends Controller
             'organisation',
             'alarm_api_key',
             'ud_only_logged_in',
+            'email_reporting',
+            'email_reporting_to',
+            'bericht_autodelete',
         ]));
     }
 
@@ -53,6 +60,7 @@ class SettingController extends Controller
         Setting::set('organisation',$request->get('organisation'));
         Setting::set('alarm_api_key',$request->get("alarm_api_key"));
         Setting::set('ud_only_logged_in',$request->get('ud_only_logged_in'));
+        Setting::set('bericht_autodelete',$request->get('bericht_autodelete'));
         session()->flash('success','Die Einstellungen wurden gespeichert.');
         return redirect()->back();
     }
@@ -69,6 +77,20 @@ class SettingController extends Controller
         $user->password = Hash::make($request->get('password'));
         $user->save();
         session()->flash('success','Das Passwort wurde geändert.');
+        return redirect()->back();
+    }
+
+    /**
+     * Speichert die E-Mail Reporting einstellungen
+     *
+     * @param StorePasswordRequest $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function storeEmail(StoreEmailReportingRequest $request)
+    {
+        Setting::set('email_reporting',$request->get("email_reporting"));
+        Setting::set('email_reporting_to',$request->get("email_reporting_to"));
+        session()->flash('success','E-Mail Einstellungen wurde geändert.');
         return redirect()->back();
     }
 

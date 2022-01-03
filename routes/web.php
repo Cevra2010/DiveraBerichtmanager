@@ -76,6 +76,8 @@ Route::prefix("Admin/")->name("admin.")->middleware("auth")->group(function () {
         ->name("setting.store");
     Route::post('/Einstellungen/Passwort/peichern',[SettingController::class,'storePassword'])
         ->name("setting.password.store");
+    Route::post('/Einstellungen/Email/peichern',[SettingController::class,'storeEmail'])
+        ->name("setting.email.store");
     Route::post('/Logo',[SettingController::class,'storeLogo'])
         ->name("setting.logo");
     Route::post('/Logo/Reset',[SettingController::class,'resetLogo'])

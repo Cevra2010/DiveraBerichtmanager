@@ -12,9 +12,11 @@
             </tr>
         </thead>
         <tbody>
+            @php $i = 0; @endphp
             @foreach($berichte as $bericht)
                 @if($bericht->alarm->is_uebung)
-                <tr>
+                @php $i++ @endphp
+                <tr @if($i%2) class="bg-gray-200" @endif>
                     <td>{{ $bericht->created_at->format("d.m.Y, H:i") }} Uhr</td>
                     <td>{{ $bericht->alarm->bemerkung }}</td>
                     <td>
