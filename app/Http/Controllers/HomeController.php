@@ -37,4 +37,8 @@ class HomeController extends Controller
         $pdf = PDF::loadView('home.print', compact('personal'));
         return $pdf->download();
     }
+
+    public function printer() {
+        return view("home.print.index");
+    }
 }

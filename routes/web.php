@@ -42,6 +42,8 @@ Route::get('/Start',[\App\Http\Controllers\HomeController::class,'index'])
 
 Route::get('/Einsatzberichte',[BerichtController::class,'index'])
     ->name("berichte");
+Route::get('/Druckvorlagen',[\App\Http\Controllers\HomeController::class,'printer'])
+    ->name('printer');
 Route::get('/Einsatzbericht/Neu',[BerichtController::class,'new'])
     ->name("bericht.new");
 route::post('/Einsatzbericht/Neu',[BerichtController::class,'storeNew'])

@@ -14,6 +14,11 @@
             </div>
         </a>
         @auth
+        <a href="{{ route("printer") }}">
+            <div class="p-4 hover:bg-gray-500 hover:text-gray-50">
+                Druckvorlagen
+            </div>
+        </a>
         <a href="#" onclick="document.getElementById('logoutForm').submit();">
             <div class="p-4 hover:bg-red-700 bg-red-500 hover:text-gray-50">
                 Abmelden
