@@ -87,7 +87,3 @@ Route::prefix("Admin/")->name("admin.")->middleware("auth")->group(function () {
     Route::get('/Positionen',[SettingController::class,'positionen'])
         ->name("setting.positionen");
 });
-
-Route::get("/Print",function() {
-   exec('sudo lp -d "Brother_MFC_7360N_print_server_1" ~/test.txt');
-});
