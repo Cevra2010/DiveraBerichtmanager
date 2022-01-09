@@ -203,8 +203,13 @@ class BerichtFinish extends Component
         }
         else {
 
+            $text .= "*** Einsatzinformationen ***\n\n";
+            $text .= "Einsatz-Nr.: #".$bericht->alarm->einsatz_nr."\n";
+            $text .= "Stichwort: ".$bericht->alarm->stichwort."\n";
+            $text .= "Einsatzort: ".$bericht->alarm->address."\n";
+            $text .= "Bemerkung: ".$bericht->alarm->bemerkung."\n";
 
-            $text = "\n\n *** Einsatzbericht *** \n\n";
+            $text .= "\n\n *** Einsatzbericht *** \n\n";
 
             if ($bericht->hauptbericht) {
                 $text .= "[ X ] Hauptbericht\n";
