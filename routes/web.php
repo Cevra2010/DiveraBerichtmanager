@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminBerichtController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\PersonalController;
 use App\Http\Controllers\Admin\SettingController;
@@ -86,4 +87,8 @@ Route::prefix("Admin/")->name("admin.")->middleware("auth")->group(function () {
         ->name("setting.funktionen");
     Route::get('/Positionen',[SettingController::class,'positionen'])
         ->name("setting.positionen");
+    Route::get('/Bericht/Einsatzbestaetigung/{bericht?}',[AdminBerichtController::class,'einsatzbestaetigung'])
+        ->name("bericht.bestaetigung");
+    Route::get('/Bericht/Bestaetigung/Pdf',[AdminBerichtController::class,'generateBestaetigung'])
+        ->name("bericht.bestaetigung.generate");
 });

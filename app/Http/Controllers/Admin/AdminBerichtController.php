@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bericht;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
+use Dompdf\Dompdf;
+use Illuminate\Support\Facades\Storage;
 use Zis\Ext\SettingsManager\Setting;
 
 class AdminBerichtController extends Controller
@@ -29,5 +33,46 @@ class AdminBerichtController extends Controller
         return view("admin.berichte.show",[
             'bericht' => $bericht,
         ]);
+    }
+
+    public function einsatzbestaetigung($bericht = null) {
+        return view("admin.berichte.bestaetigung",[
+            'bericht' => $bericht,
+        ]);
+        /*
+        if (!$logo = Setting::get('logo')) {
+            $logo = null;
+        } else {
+            $logo = Setting::get('logo');
+            $logo = Storage::path($logo);
+        }
+
+        $pdf = PDF::loadView('pdf.teilnahme',[
+            'logo' => $logo
+        ]);
+        return $pdf->download();
+
+        return view("pdf.teilnahme");
+        */
+    }
+
+    public function generateBestaetigung() {
+        if (!$logo = Setting::get('logo')) {
+            $logo = null;
+        } else {
+            $logo = Setting::get('logo');
+            $logo = Storage::path($logo);
+        }
+
+        $pdf = \PDF::loadView('pdf.teilnahme',[
+            'logo' => $logo,
+            'name' => session()->get('name'),
+            'alarm_at' => session()->get('alarm_at'),
+            'alarm_end_at' => session()->get('alarm_end_at'),
+            'einsatznummer' => session()->get('einsatznummer'),
+            'adressat' => session()->get('adressat'),
+        ]);
+
+        return $pdf->download();
     }
 }
