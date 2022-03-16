@@ -67,6 +67,8 @@ Route::prefix("Admin/")->name("admin.")->middleware("auth")->group(function () {
         ->name("berichte");
     Route::get('/Uebung/Berichte',[\App\Http\Controllers\Admin\AdminBerichtController::class,'uebung'])
         ->name("uebung");
+    Route::get('/Uebung/Statistik',[AdminBerichtController::class,'uebungStatistik'])
+        ->name("uebung.statistik");
     Route::get('/Bericht/{bericht}',[\App\Http\Controllers\Admin\AdminBerichtController::class,'show'])
         ->name("bericht.show");
     Route::get('/Personal',[PersonalController::class,'index'])

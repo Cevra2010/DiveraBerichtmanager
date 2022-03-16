@@ -39,21 +39,10 @@ class AdminBerichtController extends Controller
         return view("admin.berichte.bestaetigung",[
             'bericht' => $bericht,
         ]);
-        /*
-        if (!$logo = Setting::get('logo')) {
-            $logo = null;
-        } else {
-            $logo = Setting::get('logo');
-            $logo = Storage::path($logo);
-        }
+    }
 
-        $pdf = PDF::loadView('pdf.teilnahme',[
-            'logo' => $logo
-        ]);
-        return $pdf->download();
-
-        return view("pdf.teilnahme");
-        */
+    public function uebungStatistik() {
+        return view("admin.berichte.uebung-statistik");
     }
 
     public function generateBestaetigung() {

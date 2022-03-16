@@ -3,6 +3,9 @@
 @section("title","Übungsberichte")
 
 @section("content")
+
+    <a href="{{ route("admin.uebung.statistik") }}" class="btn btn-indigo">Statistik öffnen</a>
+
     <table class="table">
         <thead>
             <tr>

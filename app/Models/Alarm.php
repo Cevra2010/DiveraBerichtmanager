@@ -9,6 +9,8 @@ class Alarm extends Model
     protected $table = 'alarms';
     protected $dates = [
         'alarm_at',
+        'created_at',
+        'closed_at',
     ];
 
     public function bericht() {
