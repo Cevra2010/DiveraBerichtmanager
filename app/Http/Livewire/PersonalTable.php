@@ -18,7 +18,7 @@ class PersonalTable extends Component
      */
     public function render()
     {
-        $personal = Personal::all();
+        $personal = Personal::orderBy('lastname')->get();
         return view('livewire.personal-table',compact('personal'));
     }
 }

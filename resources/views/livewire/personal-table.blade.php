@@ -5,8 +5,8 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Vorname</th>
                 <th>Nachname</th>
+                <th>Vorname</th>
                 <th>Gruppenführer</th>
                 <th>Sichtbar</th>
                 <th>Aktionen</th>
@@ -16,8 +16,8 @@
             @foreach($personal as $person)
                 <tr @if($loop->odd) class="bg-gray-200" @endif>
                     <td>{{ $person->id }}</td>
-                    <td>{{ $person->firstname }}</td>
                     <td>{{ $person->lastname }}</td>
+                    <td>{{ $person->firstname }}</td>
                     <td>
                         @if($person->gf)
                             <i class="text-green-600 fas fa-check"></i>
