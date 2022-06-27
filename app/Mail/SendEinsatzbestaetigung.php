@@ -37,7 +37,7 @@ class SendEinsatzbestaetigung extends Mailable
      */
     public function build()
     {
-        $this->from(config("mail.from.address"),config("mail.from"))
+        $this->from(config("mail.from.address"),'Intranet - Freiw. Feuerwehr Wiesbaden-Dotzheim')
         ->with([
             'name' => $this->name,
             'nr' => $this->nr,
