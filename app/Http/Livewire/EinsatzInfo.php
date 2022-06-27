@@ -37,7 +37,9 @@ class EinsatzInfo extends Component
 
     public function setPersonal(Personal $personal) {
         $this->alarm_at = $this->bericht->alarm->created_at->format("d.m.Y H:i");
-        $this->alarm_end_at = $this->bericht->finished_at->format("d.m.Y H:i");
+        if($this->alarm_end_at) {
+            $this->alarm_end_at = $this->bericht->finished_at->format("d.m.Y H:i");
+        }
         $this->einsatznummer = $this->bericht->alarm->einsatz_nr;
         $this->personal = $personal;
 
