@@ -12,7 +12,7 @@ class BerichtRelationship extends Model
     protected $table = 'bericht_personal';
 
     public function personal() {
-        return $this->hasOne(Personal::class,'id','personal_id');
+        return $this->hasOne(Personal::class,'id','personal_id')->orderBy('lastname');
     }
 
     public function position() {

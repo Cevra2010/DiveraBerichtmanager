@@ -291,7 +291,6 @@ class BerichtFinish extends Component
         else {
             $text .= "- Es wurde keine Kräfte unter Atemschutz eingesetzt. -";
         }
-
         return $text;
     }
 
