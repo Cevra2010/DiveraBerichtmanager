@@ -75,6 +75,7 @@ class EinsatzInfo extends Component
 
         if($sendMail) {
             session()->put('send_email',true);
+            session()->put('email',$this->email);
         }
 
         return redirect()->route("admin.bericht.bestaetigung.generate");

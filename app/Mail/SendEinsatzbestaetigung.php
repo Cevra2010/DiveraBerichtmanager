@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Str;
 use Illuminate\Queue\SerializesModels;
 
 class SendEinsatzbestaetigung extends Mailable
@@ -36,7 +37,14 @@ class SendEinsatzbestaetigung extends Mailable
      */
     public function build()
     {
-        $this->attach($this->pdf->output());
+        $this->from(config("mail.from.address"),config("mail.from"))
+        ->with([
+            'name' => $this->name,
+            'nr' => $this->nr,
+            'at' => $this->at,
+        ])
+        ->subject("Bestätigung über die Teilnahme am Einsatz - ".config("app.name"))
+        ->attachData($this->pdf->output(),'Bestaetigung-Einsatz-'.Str::snake($this->nr.'-'.$this->name).".pdf");
         return $this->view('mail.bestaetigung');
     }
 }
