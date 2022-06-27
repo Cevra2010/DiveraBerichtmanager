@@ -18,6 +18,7 @@ class EinsatzInfo extends Component
     public $alarm_end_at = null;
     public $einsatznummer = null;
     public $adressat = null;
+    public $email = null;
 
     protected $rules = [
         'alarm_at' => 'required|date_format:d.m.Y H:i',
@@ -39,6 +40,14 @@ class EinsatzInfo extends Component
         $this->alarm_end_at = $this->bericht->finished_at->format("d.m.Y H:i");
         $this->einsatznummer = $this->bericht->alarm->einsatz_nr;
         $this->personal = $personal;
+
+        if($this->personal->arbeit) {
+            $this->adressat = $this->personal->arbeit;
+        }
+
+        if($this->personal->email) {
+            $this->email = $this->personal->email;
+        }
     }
 
     public function abort() {
@@ -49,13 +58,22 @@ class EinsatzInfo extends Component
         $this->adressat = null;
     }
 
-    public function generate() {
+    public function sendEmail() {
+        return $this->generate(true);
+    }
+
+    public function generate($sendMail = false) {
         $this->validate();
         session()->put('name',$this->personal->firstname." ".$this->personal->lastname);
         session()->put('alarm_at',$this->alarm_at);
         session()->put('alarm_end_at',$this->alarm_end_at);
         session()->put('einsatznummer',$this->einsatznummer);
         session()->put('adressat',$this->adressat);
+        session()->put('send_email',false);
+
+        if($sendMail) {
+            session()->put('send_email',true);
+        }
 
         return redirect()->route("admin.bericht.bestaetigung.generate");
     }

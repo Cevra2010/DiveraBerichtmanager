@@ -1,4 +1,5 @@
 <div>
+    @include("layout.error_success")
     @if(!$personal)
         <p class="p-2 bg-indigo-100">Bitte wählen Sie die betreffende Person aus</p>
         @foreach($bericht->personal as $personal)
@@ -32,7 +33,14 @@
             <label class="zis-form-label">Empfänger</label>
             <textarea type="text" wire:model='adressat' class="zis-form-input" rows="4"></textarea>
         </div>
+        <p class="mt-8 mb-2 text-xl font-bold">Bericht erstellen / senden</p>
+        <hr>
+        <div class="zis-form-group mt-10">
+            <label class="zis-form-label">E-Mail Empfänger</label>
+            <input type="text" wire:model='email' class="zis-form-input">
+        </div>
 
         <button class="btn btn-green" wire:click='generate'>Bestätigung erstellen</button>
+        <button class="btn btn-green bg-blue-500" wire:click='sendEmail'>Bestätigung per E-Mail versenden</button>
     @endif
 </div>

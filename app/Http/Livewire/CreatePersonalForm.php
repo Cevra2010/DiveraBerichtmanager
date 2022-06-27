@@ -16,6 +16,8 @@ class CreatePersonalForm extends Component
         'personal.lastname' => 'required',
         'personal.gf' => 'nullable|required',
         'personal.visible' => 'nullable|required',
+        'personal.email' => 'nullable|email',
+        'personal.arbeit' => 'nullable',
     ];
 
     protected $listeners = [

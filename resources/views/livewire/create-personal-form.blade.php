@@ -31,6 +31,14 @@
             <input class="zis-form-input" wire:model="personal.lastname">
         </div>
         <div class="zis-form-group">
+            <label for="email" class="zis-form-label">E-Mail Adresse</label>
+            <input class="zis-form-input" wire:model="personal.email">
+        </div>
+        <div class="zis-form-group">
+            <label for="email" class="zis-form-label">Arbeitgeber</label>
+            <textarea class="zis-form-input" rows="5" wire:model="personal.arbeit"></textarea>
+        </div>
+        <div class="zis-form-group">
             <label for="gf" class="zis-form-label">Gruppenführer</label>
             <select class="zis-form-input" wire:model="personal.gf">
                 <option value="1">Ja</option>

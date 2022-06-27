@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\SendEinsatzbestaetigung;
 use App\Models\Bericht;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Dompdf\Dompdf;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Zis\Ext\SettingsManager\Setting;
 
@@ -53,6 +55,8 @@ class AdminBerichtController extends Controller
             $logo = Storage::path($logo);
         }
 
+
+
         $pdf = \PDF::loadView('pdf.teilnahme',[
             'logo' => $logo,
             'name' => session()->get('name'),
@@ -62,6 +66,13 @@ class AdminBerichtController extends Controller
             'adressat' => session()->get('adressat'),
         ]);
 
-        return $pdf->download();
+        if(session()->get('send_email') == true) {
+            Mail::to(session()->get('email'))->send(new SendEinsatzbestaetigung($pdf,session()->get('name'),session()->get('einsatznummer'),session()->get('alarm_at')));
+            session()->flash('success','E-Mail wurde versendet.');
+            return redirect()->back();
+        }
+        else {
+            return $pdf->download('einsatz_'.session()->get('einsatznummer').'.pdf');
+        }
     }
 }
